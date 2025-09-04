@@ -72,8 +72,10 @@
   .card { background: linear-gradient(180deg, #00000020, #00000060); border: 1px solid #ffffff1a; border-radius: var(--radius); padding: clamp(16px, 2.8vw, 20px); box-shadow: 0 16px 40px #00000040; }
 
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: clamp(12px, 2.5vw, 18px); margin-top: 28px; }
-  .feature h3 { margin: 0 0 8px; color: #fff1e6; font-size: clamp(18px, 2.8vw, 20px); }
-  .feature p { margin: 0; color: #ffedd8; opacity: .9; font-size: clamp(14px, 2.6vw, 16px); }
+  .feature figure { margin: 0; display:flex; flex-direction:column; align-items:center; text-align:center; gap: 10px; }
+  .feature img { width: 100%; height: auto; border-radius: 12px; display:block; aspect-ratio: 4/3; object-fit: cover; box-shadow: 0 10px 24px #00000055; }
+  .feature figcaption { color: #ffedd8; opacity: .95; font-size: clamp(14px, 2.6vw, 16px); }
+  .feature figcaption strong { display:block; color:#fff1e6; font-size: clamp(18px, 2.8vw, 20px); margin-bottom: 4px; }
 
   .pill { display:inline-block; padding: 6px 10px; border-radius: 999px; background: #ffffff14; color:#ffedd8; border:1px solid #ffffff24; font-size: 12px; }
 
@@ -127,6 +129,12 @@
 
   /* Focus visibility */
   :focus-visible { outline: 2px solid #ffffff70; outline-offset: 2px; border-radius: 12px; }
+
+  /* Form */
+  .form-grid { display:grid; grid-template-columns: 1fr; gap: 12px; max-width: 650px; }
+  input, textarea { padding:12px 14px; border-radius:12px; border:1px solid #ffffff30; background:#00000020; color:#fff; width: 100%; }
+  textarea { margin-top:12px; min-height:120px; }
+  @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -180,20 +188,40 @@
       <h2>What you get</h2>
       <div class="features">
         <div class="card feature">
-          <h3>Actionable Playbooks</h3>
-          <p>Step‑by‑step guides to launch offers, grow audience, and automate earnings.</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop" alt="Actionable playbooks illustration" loading="lazy">
+            <figcaption>
+              <strong>Actionable Playbooks</strong>
+              Step‑by‑step guides to launch offers, grow audience, and automate earnings.
+            </figcaption>
+          </figure>
         </div>
         <div class="card feature">
-          <h3>Tools &amp; Templates</h3>
-          <p>Spreadsheets, scripts, and checklists you can use immediately.</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1200&auto=format&fit=crop" alt="Tools and templates visual" loading="lazy">
+            <figcaption>
+              <strong>Tools &amp; Templates</strong>
+              Spreadsheets, scripts, and checklists you can use immediately.
+            </figcaption>
+          </figure>
         </div>
         <div class="card feature">
-          <h3>Community Support</h3>
-          <p>Learn with peers, share wins, and get feedback that compounds.</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1529336953121-4a1121188589?q=80&w=1200&auto=format&fit=crop" alt="Community support people collaborating" loading="lazy">
+            <figcaption>
+              <strong>Community Support</strong>
+              Learn with peers, share wins, and get feedback that compounds.
+            </figcaption>
+          </figure>
         </div>
         <div class="card feature">
-          <h3>Weekly Insights</h3>
-          <p>Short, focused insights shipped to your inbox to keep momentum high.</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1520975922215-230f5f84674b?q=80&w=1200&auto=format&fit=crop" alt="Weekly insights newsletter concept" loading="lazy">
+            <figcaption>
+              <strong>Weekly Insights</strong>
+              Short, focused insights shipped to your inbox to keep momentum high.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -245,7 +273,7 @@
   const shadow = () => { nav.style.boxShadow = window.scrollY > 10 ? '0 10px 24px #00000066' : 'none'; };
   window.addEventListener('scroll', shadow); shadow();
 
-  // Mobile menu toggle (no text/design changes; just responsive behavior)
+  // Mobile menu toggle
   const toggleBtn = document.getElementById('menuToggle');
   const menu = document.getElementById('primaryMenu');
   const trapSelectors = 'a, button';
@@ -254,7 +282,6 @@
     menu.classList.toggle('show', open);
     toggleBtn.setAttribute('aria-expanded', String(open));
     if (open) {
-      // focus first link for accessibility
       const first = menu.querySelector(trapSelectors);
       first && first.focus();
     }
@@ -272,13 +299,5 @@
     document.getElementById('msg').textContent = 'Thanks! We will reach out shortly.';
   });
 </script>
-
-<style>
-  /* Moved inline form styles into responsive CSS without changing visuals */
-  .form-grid { display:grid; grid-template-columns: 1fr; gap: 12px; max-width: 650px; }
-  input, textarea { padding:12px 14px; border-radius:12px; border:1px solid #ffffff30; background:#00000020; color:#fff; width: 100%; }
-  textarea { margin-top:12px; min-height:120px; }
-  @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } }
-</style>
 </body>
 </html>
