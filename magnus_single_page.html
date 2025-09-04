@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magnus — Trusted source for wealth creation</title>
+<meta name="description" content="Magnus — Trusted source for wealth creation.">
+<style>
+  :root {
+    --accent: #ef7319;
+    --accent-deep: #ab480a;
+    --card: #5e2405;
+    --bg-soft: #2b1303;
+    --bg-dark: #180f02;
+    --ink: #0d0801;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: local('Poppins'), local('Poppins Regular');
+    font-display: swap;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: #f8f4ee;
+    background: radial-gradient(1300px 600px at 15% 30%, var(--accent) 0%, var(--bg-soft) 45%, var(--bg-dark) 100%);
+    background-attachment: fixed;
+  }
+
+  /* Sticky nav */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    background: linear-gradient(0deg, #00000040, #00000060);
+    border-bottom: 1px solid #ffffff12;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff;
+    font-weight: 700; letter-spacing: .3px;
+  }
+  .brand-badge {
+    width: 40px; height: 40px; border-radius: 12px;
+    display:flex; align-items:center; justify-content:center;
+    background: var(--accent);
+    box-shadow: 0 14px 40px #ef731955, inset 0 0 0 1px #ffffff1a;
+  }
+  .brand-badge svg { width: 20px; height: 20px; fill: var(--ink); }
+  .menu a {
+    color: #ffe8d4; text-decoration: none; margin-left: 18px; font-weight: 500;
+  }
+  .menu a:hover { color: #fff; }
+  .cta {
+    padding: 10px 14px; border-radius: 12px; border: none;
+    background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+    color: var(--ink); font-weight:700; cursor: pointer;
+    box-shadow: 0 8px 22px #ef73194d;
+  }
+  .cta:hover { filter: brightness(1.05); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 18px 120px; }
+
+  .hero {
+    display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center;
+    padding: 48px 0 20px;
+  }
+  .tile {
+    width: 120px; height: 120px; border-radius: 28px; background: var(--accent);
+    box-shadow: 0 30px 60px #ef73194d, inset 0 0 0 1px #ffffff1f;
+    display:flex; align-items:center; justify-content:center; margin: 0 auto;
+  }
+  .tile svg { width: 56px; height: 56px; fill: var(--ink); }
+  .headline { font-size: clamp(32px, 7vw, 56px); line-height: 1.05; margin: 0; }
+  .sub { color: #ffe8d4; opacity: .9; max-width: 640px; }
+  .card {
+    background: linear-gradient(180deg, #00000020, #00000060);
+    border: 1px solid #ffffff1a;
+    border-radius: 20px; padding: 20px; box-shadow: 0 16px 40px #00000040;
+  }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 28px; }
+  .feature h3 { margin: 0 0 8px; color: #fff1e6; }
+  .feature p { margin: 0; color: #ffedd8; opacity: .9; }
+
+  .cta-row { margin-top: 20px; display:flex; gap: 12px; flex-wrap: wrap; }
+  .ghost {
+    padding: 10px 14px; border-radius: 12px;
+    background: transparent; color: #ffe8d4; border: 1px solid #ffffff2a; cursor:pointer;
+  }
+  .ghost:hover { background: #ffffff10; }
+
+  section { margin: 64px 0; }
+  section h2 { margin: 0 0 16px; font-size: clamp(24px, 5vw, 34px); }
+
+  /* Sticky footer (fixed) */
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, #00000000, #00000075);
+    border-top: 1px solid #ffffff12;
+    color: #ffedd8;
+    padding: 12px 18px;
+    z-index: 999;
+  }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+  .small { font-size: 12px; opacity: .85; }
+  .footer-links a { color:#ffedd8; text-decoration:none; margin-left:14px; }
+  .footer-links a:hover { color:#fff; }
+
+  /* Utility */
+  .pill {
+    display:inline-block; padding: 6px 10px; border-radius: 999px;
+    background: #ffffff14; color:#ffedd8; border:1px solid #ffffff24; font-size: 12px;
+  }
+
+  /* Responsive grid for hero on large screens */
+  @media (min-width: 880px) {
+    .hero { grid-template-columns: 320px 1fr; }
+    .tile { margin: 0; }
+  }
+</style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-badge" aria-label="Magnus logo">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.5 2L4 13h6l-1.5 9L20 10h-6l1.5-8z"></path>
+          </svg>
+        </span>
+        <span>Magnus</span>
+      </a>
+      <div class="menu">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+        <button class="cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="tile" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M10.5 2L4 13h6l-1.5 9L20 10h-6l1.5-8z"/></svg>
+      </div>
+      <div>
+        <span class="pill">Trusted source for wealth creation</span>
+        <h1 class="headline">Magnus</h1>
+        <p class="sub">Build smarter income streams with simple strategies, tools and weekly insights. Designed with the exact orange-and-cocoa palette from the brand art.</p>
+        <div class="cta-row">
+          <button class="cta" onclick="alert('Welcome to Magnus!')">Join Magnus</button>
+          <button class="ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn more</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="card">
+        <h2>About Magnus</h2>
+        <p>Magnus helps creators, students, and entrepreneurs make consistent progress toward financial goals. We focus on high‑leverage habits, ethical monetization, and repeatable systems.</p>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>What you get</h2>
+      <div class="features">
+        <div class="card feature">
+          <h3>Actionable Playbooks</h3>
+          <p>Step‑by‑step guides to launch offers, grow audience, and automate earnings.</p>
+        </div>
+        <div class="card feature">
+          <h3>Tools & Templates</h3>
+          <p>Spreadsheets, scripts, and checklists you can use immediately.</p>
+        </div>
+        <div class="card feature">
+          <h3>Community Support</h3>
+          <p>Learn with peers, share wins, and get feedback that compounds.</p>
+        </div>
+        <div class="card feature">
+          <h3>Weekly Insights</h3>
+          <p>Short, focused insights shipped to your inbox to keep momentum high.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="card">
+        <h2>Contact</h2>
+        <form id="contactForm" onsubmit="return false;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:650px">
+            <input required placeholder="Your name" style="padding:12px 14px;border-radius:12px;border:1px solid #ffffff30;background:#00000020;color:#fff">
+            <input required type="email" placeholder="Your email" style="padding:12px 14px;border-radius:12px;border:1px solid #ffffff30;background:#00000020;color:#fff">
+          </div>
+          <textarea required placeholder="Tell us what you're building…" style="margin-top:12px;width:100%;min-height:120px;padding:12px 14px;border-radius:12px;border:1px solid #ffffff30;background:#00000020;color:#fff"></textarea>
+          <div class="cta-row">
+            <button class="cta" type="submit">Send message</button>
+            <span class="small" id="msg" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="small">© <span id="year"></span> Magnus • Wealth starts with one action.</span>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  // Set year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Smooth anchor scroll for menu links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+
+  // Add drop shadow to nav on scroll
+  const nav = document.getElementById('nav');
+  const shadow = () => {
+    if (window.scrollY > 10) { nav.style.boxShadow = '0 10px 24px #00000066'; }
+    else { nav.style.boxShadow = 'none'; }
+  };
+  window.addEventListener('scroll', shadow); shadow();
+
+  // Fake submit handler
+  document.getElementById('contactForm').addEventListener('submit', () => {
+    document.getElementById('msg').textContent = 'Thanks! We will reach out shortly.';
+  });
+</script>
+</body>
+</html>
