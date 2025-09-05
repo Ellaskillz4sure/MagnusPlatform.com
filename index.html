@@ -276,17 +276,11 @@
   // Mobile menu toggle
   const toggleBtn = document.getElementById('menuToggle');
   const menu = document.getElementById('primaryMenu');
-  const trapSelectors = 'a, button';
   toggleBtn?.addEventListener('click', () => {
     const open = !menu.classList.contains('show');
     menu.classList.toggle('show', open);
     toggleBtn.setAttribute('aria-expanded', String(open));
-    if (open) {
-      const first = menu.querySelector(trapSelectors);
-      first && first.focus();
-    }
   });
-  // Close menu when clicking a link (small screens)
   menu?.querySelectorAll('a, button').forEach(el => el.addEventListener('click', () => {
     if (getComputedStyle(toggleBtn).display !== 'none') {
       menu.classList.remove('show');
@@ -294,10 +288,19 @@
     }
   }));
 
-  // Fake submit handler
+  // Contact form to WhatsApp
   document.getElementById('contactForm').addEventListener('submit', () => {
-    document.getElementById('msg').textContent = 'Thanks! We will reach out shortly.';
+    const name = document.querySelector('input[placeholder="Your name"]').value.trim();
+    const email = document.querySelector('input[type="email"]').value.trim();
+    const message = document.querySelector('textarea').value.trim();
+
+    const phone = "2347045052056"; // WhatsApp requires country code; 234 for Nigeria
+    const text = `Hello Magnus,%0A%0AMy name is ${name}.%0AEmail: ${email}%0A%0A${message}`;
+    const url = `https://wa.me/${phone}?text=${text}`;
+
+    window.open(url, '_blank'); // opens WhatsApp
   });
 </script>
+
 </body>
 </html>
