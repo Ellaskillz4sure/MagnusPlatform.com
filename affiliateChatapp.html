@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magnus Platform — Quick Start</title>
+  <meta name="description" content="Chat-style welcome and quick start for Magnus Platform." />
+  <style>
+    :root{
+      --bg: #1a0c00;
+      --bg-soft: #2b1202;
+      --surface: rgba(255,140,0,0.06);
+      --surface-strong: rgba(255,140,0,0.12);
+      --border: rgba(255,140,0,0.25);
+      --text: #fff6ee;
+      --muted: #f2b57f;
+      --brand: #ff6600;
+      --brand-2: #ff9933;
+      --ok: #22c55e;
+      --radius-xl: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.6);
+      --container: min(100%, 900px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 600px at -10% -10%, rgba(255,102,0,0.45) 0%, transparent 60%),
+        radial-gradient(1000px 500px at 110% -10%, rgba(120,60,0,0.35) 0%, transparent 60%),
+        linear-gradient(180deg, #120700 0%, #1a0c00 100%);
+      color:var(--text);
+      display:flex; flex-direction:column;
+    }
+    header{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(20,10,0,0.85), rgba(20,10,0,0.35));
+      border-bottom: 1px solid var(--border);
+    }
+    .bar{
+      max-width: var(--container); margin:0 auto; padding:14px 16px; display:flex; gap:12px; align-items:center;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:10px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 6px 20px rgba(255,102,0,0.4);
+    }
+    .title{font-weight:700; letter-spacing:.3px;}
+    .sub{margin-left:auto; font-size:.9rem; color:var(--muted);}
+    .wrap{flex:1; display:flex; justify-content:center;}
+    .chat{width:100%; max-width:var(--container); padding:20px 16px 132px;}
+    .bubble{
+      max-width: min(85%, 640px);
+      padding:12px 14px; border-radius:14px; line-height:1.4;
+      box-shadow: var(--shadow);
+      font-size: clamp(0.95rem, 2.4vw, 1rem);
+    }
+    .bot{
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border:1px solid var(--border);
+      backdrop-filter: blur(8px);
+      border-top-left-radius: 6px;
+    }
+    .user{
+      margin-left:auto;
+      background: linear-gradient(135deg, rgba(255,153,51,0.25), rgba(255,102,0,0.18));
+      border:1px solid rgba(255,102,0,0.25);
+      border-bottom-right-radius: 6px;
+    }
+    .row{display:flex; margin:12px 0;}
+    .avatar{width:34px;height:34px;border-radius:10px;margin-right:10px;flex:0 0 auto;
+      background: linear-gradient(135deg, #1f1f1f, #000000);opacity:.9;}
+    .row.user-row{justify-content:flex-end}
+    .row.user-row .avatar{display:none}
+    .card{
+      margin-top:8px;
+      background: linear-gradient(180deg, rgba(255,140,0,0.12), rgba(255,140,0,0.06));
+      border:1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow:hidden;
+    }
+    .card .head{
+      padding:14px 16px;
+      background: linear-gradient(180deg, rgba(255,120,0,0.30), rgba(255,120,0,0.08));
+      border-bottom:1px solid var(--border);
+      font-weight:700;
+    }
+    .card .body{padding:14px 16px; color:var(--text); overflow-wrap:anywhere;}
+    .card ul{margin:10px 0 0 18px}
+    .card li{margin:6px 0; color:var(--muted)}
+    .actions{
+      display:flex; flex-wrap:wrap; gap:10px; padding:14px 16px; border-top:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,102,0,0.18), rgba(255,102,0,0.06));
+    }
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      padding:10px 14px; border-radius:12px; font-weight:700; letter-spacing:.2px;
+      transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+      color:#0b1220; font-size: clamp(0.9rem, 2.4vw, 1rem);
+    }
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{background: linear-gradient(135deg, #ff6600, #ff9933)}
+    .btn.secondary{background: linear-gradient(135deg, #000000, #333333); color:#f2f2f2;}
+    .dock{
+      position: fixed; left:0; right:0; bottom:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(20,10,0,0.2), rgba(20,10,0,0.7));
+      border-top: 1px solid var(--border);
+      padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+    .dock-inner{max-width:var(--container); margin:0 auto; padding:12px 16px; display:flex; gap:10px;}
+    .field{
+      flex:1; display:flex; gap:10px; align-items:center;
+      background: var(--surface);
+      border:1px solid var(--border);
+      border-radius: 14px; padding:10px 12px;
+    }
+    .input{flex:1; background: transparent; border:none; outline:none; color:var(--text); font-size:clamp(0.95rem, 2.4vw, 1rem);}
+    .send{
+      flex:0 0 auto; min-width:110px;
+      background: linear-gradient(135deg, #22c55e, #a3e635);
+      color:#08210c; border:none; border-radius:12px; padding:10px 14px; font-weight:800; cursor:pointer;
+      box-shadow: 0 10px 24px rgba(34,197,94,0.25);
+      font-size: clamp(0.9rem, 2.4vw, 1rem);
+    }
+    .fade-in{animation:fade .24s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none}}
+    @media (min-width:768px){.bubble{padding:14px 16px}.send{min-width:140px}}
+    /* Small phones */
+    @media (max-width: 480px){
+      .chat{ padding: 14px 10px calc(110px + env(safe-area-inset-bottom)); }
+      .bar{ padding: 10px 10px; }
+      .logo{ width:28px; height:28px; border-radius:8px; }
+      .sub{ display:none; }
+      .bubble{ max-width: 96%; padding:10px 12px; }
+      .avatar{ width:28px; height:28px; margin-right:8px; }
+      .btn{ padding: 9px 12px; }
+      .send{ min-width: 92px; padding: 9px 12px; }
+      .dock-inner{ padding: 10px; gap:8px; }
+    }
+    /* Extra-small screens */
+    @media (max-width: 360px){
+      .field{ flex-wrap: wrap; }
+      .send{ width: 100%; }
+    }
+    /* Tablets */
+    @media (min-width: 641px) and (max-width: 1023px){
+      .chat{ padding: 18px 16px calc(140px + env(safe-area-inset-bottom)); }
+      .bubble{ max-width: 88%; }
+    }
+    /* Large desktops */
+    @media (min-width: 1024px){
+      .chat{ padding: 24px 20px calc(160px + env(safe-area-inset-bottom)); }
+      .bubble{ max-width: min(900px, 82%); }
+      :root{ --container: min(100%, 1100px); }
+    }
+    /* Ensure media in cards stays fully responsive */
+    .card img{ max-width:100%; height:auto; display:block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="title">Magnus Platform</div>
+      <div class="sub">Instant welcome & quick start</div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="chat" id="chat" aria-live="polite" aria-label="Magnus Platform chat"></section>
+  </main>
+  <footer class="dock" role="contentinfo" aria-label="Message composer">
+    <div class="dock-inner">
+      <form id="composer" class="field" autocomplete="off">
+        <input id="msg" class="input" name="message" placeholder="Type here and press Enter…" aria-label="Type your message" required />
+        <button class="send" type="submit" aria-label="Send">Send</button>
+      </form>
+    </div>
+  </footer>
+  <script>
+    const chat = document.getElementById('chat');
+    const form = document.getElementById('composer');
+    const input = document.getElementById('msg');
+
+    function appendMessage(role, html) {
+      const row = document.createElement('div');
+      row.className = 'row ' + (role === 'user' ? 'user-row' : 'bot-row') + ' fade-in';
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      if (role === 'user') avatar.style.display = 'none';
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (role === 'user' ? 'user' : 'bot');
+      bubble.innerHTML = html;
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      chat.appendChild(row);
+      window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+      return bubble;
+    }
+
+    function buildCard(headText, bodyHTML, withActions){
+      return `<div class="card" role="region" aria-label="${headText}">
+        <div class="head">${headText}</div>
+        <div class="body">${bodyHTML}</div>
+        ${withActions ? `<div class="actions">
+            <button class="btn primary" data-action="choose">I Choose this package</button>
+            <button class="btn secondary" data-action="ready">I am ready</button>
+          </div>` : ``}
+      </div>`;
+    }
+
+    function proofCardHTML(i){
+      return `<div class="card" role="region" aria-label="Proof ${i}">
+        <div class="head">Verification & Proof #${i}</div>
+        <div class="body">
+          <figure style="margin:0">
+            <img src="https://picsum.photos/seed/magnus${i}/600/360" alt="Magnus proof ${i}" style="width:100%;height:auto;border-radius:12px;border:1px solid var(--border)" />
+            <figcaption style="margin-top:8px">
+              <h1 style="margin:0 0 4px 0;font-size:1.05rem;line-height:1.2">Real Platform Proof #${i}</h1>
+              <p style="margin:0;color:var(--muted)">Sample evidence image ${i} demonstrating activity and results on Magnus Platform.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="actions">
+          <button class="btn primary" data-action="choose">I Choose this package</button>
+          <button class="btn secondary" data-action="ready">I am ready</button>
+          <button class="btn primary" data-action="ready">register with a good coach</button>
+        </div>
+      </div>`;
+    }
+
+    function escapeHTML(str){
+      return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+
+    function greet() {
+      appendMessage('bot', `Welcome to <strong>Magnus Platform</strong> 👋<br>What is your name? <em>Please reply with only your name.</em>`);
+      input.focus();
+    }
+
+    function containsAny(str, arr){
+      const L = str.toLowerCase();
+      return arr.some(w => L.includes(w.toLowerCase()));
+    }
+
+    function typingThenGlobal(cb){
+      const t = appendMessage('bot', `<em>Magnus Platform is typing<span class="dots">.....</span></em>`);
+      const d = t.querySelector('.dots');
+      let c = 1;
+      const tm = setInterval(()=>{ c=(c%5)+1; d.textContent='.'.repeat(c); }, 500);
+      setTimeout(()=>{
+        clearInterval(tm);
+        t.parentElement.remove();
+        cb && cb();
+      }, 6000);
+    }
+
+    function showProofSequence(){
+      let i = 1;
+      const next = () => {
+        if (i > 5) return;
+        typingThenGlobal(()=>{
+          appendMessage('bot', proofCardHTML(i));
+          i++;
+          next();
+        });
+      };
+      next();
+    }
+
+    const countryPrompt = `Re‍ply⁤ w⁡ith⁤ t‌he⁤ na‍me⁤ o‍f⁤ y⁤our⁤ co⁢untry⁤ ​only⁤ so⁤ that⁢⁤ y​ou⁤ can⁤ pr‍oceed⁤ w‍ith⁤ ethereal registration pr‍ocesses⁤   ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎ 
+
+Co⁢untries⁤ av‍ailable....   ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎ 
+1‍⁤ Lib⁡eria⁤ ⁣🇱🇷   ‎ ‎ ‎  ‎ ‎ ‎ 
+2⁤⁤ Ken⁢ya⁤ ⁣🇰🇪  
+3‌⁤ Ghan‍a⁤ ⁣🇬🇭  
+4⁤⁤ Cam‍eroon⁤ ⁣🇨🇲   ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎  ‎ ‎ ‎ 
+5‍⁤ Uga‍nda⁤ ⁣🇺🇬 | Tanz‍ania⁤ ⁤🇹🇿  
+6‍⁤ Sout⁤h⁤ A⁢rica⁤ ⁣🇿🇦   | Nigeria 🇳🇬
+7‌⁤ Sie⁢rra⁤ Le‍one⁤ ⁤🇸🇱   ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎  ‎ ‎ ‎  ‎ ‎ ‎ 
+8⁢⁤ Ivor‍y⁤ Co⁢ast⁤ ⁣🇨🇮 | Tog⁢o⁤ ⁤🇹🇬 | Beni⁢n⁤ ⁣🇧🇯 | Mali⁤ ⁤🇲🇱 | Burk‍ina⁤ Fas⁢o⁤ ⁤🇧🇫 | Guin⁤ea-Bissa⁢u⁤ ⁣🇬🇼 | Sen⁤egal⁤ ⁣🇸🇳 | Nig‍er⁤ ⁣🇳🇪   ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎ 
+9‍⁤ The⁤ Gam‍bia⁤ ⁣🇬🇲   ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎  ‎ ‎ ‎ 
+10⁤⁤ Zi‍mbabwe⁤ ⁣🇿🇼  
+
+Wh‍ich⁤ c⁢ountry⁤ a‍re⁤ yo‍u⁤ fro‍m?⁤ Re‍ply⁤ wit‍h⁤ the⁤ nam‍e⁤ only. ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎`;
+
+    let expectingCountry = false;
+
+    const countryAccounts = {
+      nigeria: { label: 'Nigeria', bank: 'GTBank (Demo)', number: '0123456789', name: 'Magnus Platform Demo' },
+      southafrica: { label: 'South Africa', bank: 'Standard Bank (Demo)', number: '000123456789', name: 'Magnus Platform Demo' },
+      kenya: { label: 'Kenya', bank: 'KCB (Demo)', number: '1102345678', name: 'Magnus Platform Demo' },
+      ghana: { label: 'Ghana', bank: 'GCB Bank (Demo)', number: '0234567890', name: 'Magnus Platform Demo' },
+      uganda: { label: 'Uganda', bank: 'Stanbic Uganda (Demo)', number: '3102345678', name: 'Magnus Platform Demo' },
+      tanzania: { label: 'Tanzania', bank: 'CRDB (Demo)', number: '4102345678', name: 'Magnus Platform Demo' },
+      liberia: { label: 'Liberia', bank: 'Ecobank Liberia (Demo)', number: '1002345678', name: 'Magnus Platform Demo' },
+      cameroon: { label: 'Cameroon', bank: 'UBA Cameroon (Demo)', number: '2002345678', name: 'Magnus Platform Demo' },
+      sierraleone: { label: 'Sierra Leone', bank: 'Sierra Leone Commercial Bank (Demo)', number: '5202345678', name: 'Magnus Platform Demo' },
+      ivorycoast: { label: 'Ivory Coast', bank: 'Ecobank Côte d’Ivoire (Demo)', number: '5302345678', name: 'Magnus Platform Demo' },
+      cotedivoire: { label: 'Côte d’Ivoire', bank: 'Ecobank Côte d’Ivoire (Demo)', number: '5302345678', name: 'Magnus Platform Demo' },
+      togo: { label: 'Togo', bank: 'Ecobank Togo (Demo)', number: '5402345678', name: 'Magnus Platform Demo' },
+      benin: { label: 'Benin', bank: 'Bank of Africa Benin (Demo)', number: '5502345678', name: 'Magnus Platform Demo' },
+      mali: { label: 'Mali', bank: 'BNDA (Demo)', number: '5602345678', name: 'Magnus Platform Demo' },
+      burkinafaso: { label: 'Burkina Faso', bank: 'Coris Bank (Demo)', number: '5702345678', name: 'Magnus Platform Demo' },
+      guineabissau: { label: 'Guinea-Bissau', bank: 'BAO Guinea-Bissau (Demo)', number: '5802345678', name: 'Magnus Platform Demo' },
+      senegal: { label: 'Senegal', bank: 'Ecobank Senegal (Demo)', number: '5902345678', name: 'Magnus Platform Demo' },
+      niger: { label: 'Niger', bank: 'Bank of Africa Niger (Demo)', number: '6002345678', name: 'Magnus Platform Demo' },
+      gambia: { label: 'The Gambia', bank: 'Trust Bank Gambia (Demo)', number: '6102345678', name: 'Magnus Platform Demo' },
+      thegambia: { label: 'The Gambia', bank: 'Trust Bank Gambia (Demo)', number: '6102345678', name: 'Magnus Platform Demo' },
+      zimbabwe: { label: 'Zimbabwe', bank: 'CBZ Bank (Demo)', number: '6202345678', name: 'Magnus Platform Demo' }
+    };
+
+    function canonicalizeCountry(str){
+      return str
+        .toLowerCase()
+        .normalize('NFD').replace(/\p{Diacritic}/gu,'')
+        .replace(/[^a-z]/g,''); // letters only
+    }
+
+    function findCountryAccount(input){
+      const c = canonicalizeCountry(input);
+      for (const key in countryAccounts){
+        if (c === key || c.includes(key) || key.includes(c)){
+          return countryAccounts[key];
+        }
+      }
+      return null;
+    }
+
+    function bankCardHTML(acct){
+      return buildCard(`Payment Details — ${acct.label}`, `
+        <ul>
+          <li><strong>Account Name:</strong> <span class="val-name">${acct.name}</span>
+            <button class="btn secondary" data-action="copy-field" data-label="Account Name" data-value="${acct.name}" style="padding:6px 10px; margin-left:8px; font-size:.85em;">Copy</button>
+          </li>
+          <li><strong>Bank:</strong> <span class="val-bank">${acct.bank}</span>
+            <button class="btn secondary" data-action="copy-field" data-label="Bank" data-value="${acct.bank}" style="padding:6px 10px; margin-left:8px; font-size:.85em;">Copy</button>
+          </li>
+          <li><strong>Account Number:</strong> <code class="val-num" style="font-weight:700">${acct.number}</code>
+            <button class="btn secondary" data-action="copy-field" data-label="Account Number" data-value="${acct.number}" style="padding:6px 10px; margin-left:8px; font-size:.85em;">Copy</button>
+          </li>
+          <li style="color:var(--muted)"><em>Note:</em> Demo account for onboarding/testing.</li>
+        </ul>
+        <div class="actions" style="margin-top:12px;">
+          <button class="btn primary">I have made the payment</button>
+        </div>
+      `, false);
+    }
+
+    chat.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      if (action === 'choose') {
+        appendMessage('user', 'I Choose this package');
+        showProofSequence();
+      } else if (action === 'ready') {
+        appendMessage('user', 'I am ready');
+        appendMessage('bot', countryPrompt);
+        expectingCountry = true;
+      }
+    });
+
+    /* Per-field copy handler: copy only the value */
+    chat.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action="copy-field"]');
+      if (!btn) return;
+      const value = btn.dataset.value || '';
+      const text = value;
+
+      const fallbackCopy = (t) => {
+        const ta = document.createElement('textarea');
+        ta.value = t;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+      };
+
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        navigator.clipboard.writeText(text).then(() => {}).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 1200);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      appendMessage('user', escapeHTML(text));
+
+      const typingBubble = appendMessage('bot', `<em>Magnus Platform is typing<span class="dots">.....</span></em>`);
+      const dotsEl = typingBubble.querySelector('.dots');
+      let dotCount = 1;
+      const dotsTimer = setInterval(() => {
+        dotCount = (dotCount % 5) + 1;
+        dotsEl.textContent = '.'.repeat(dotCount);
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(dotsTimer);
+        typingBubble.parentElement.remove();
+
+        if (expectingCountry){
+          const acct = findCountryAccount(text);
+          if (acct){
+            appendMessage('bot', bankCardHTML(acct));
+            expectingCountry = false;
+            input.value = '';
+            input.focus();
+            return;
+          } else {
+            appendMessage('bot', buildCard('Country Not Found', `
+              <p>Please reply with the <strong>country name only</strong> from the list above.</p>
+            `, false));
+            input.value = '';
+            input.focus();
+            return;
+          }
+        }
+
+        const negative = ["fake","scam","scammer","prove","withdraw","proof","fraud"];
+        const positive = ["ready","register","start","how to","signup","join","earn","member","create","account","code","registration fee","fee"];
+
+        if (containsAny(text, negative)) {
+          showProofSequence();
+          input.value = '';
+          input.focus();
+          return;
+        }
+        if (containsAny(text, positive)) {
+          appendMessage('bot', countryPrompt);
+          expectingCountry = true;
+          input.value = '';
+          input.focus();
+          return;
+        }
+
+        const hello = text ? `Nice to meet you, <strong>${escapeHTML(text)}</strong>!` : `Great!`;
+        appendMessage('bot', `${hello} Here’s how <strong>Magnus Platform</strong> works:`);
+
+        function typingThen(cb){
+          const t = appendMessage('bot', `<em>Magnus Platform is typing<span class="dots">.....</span></em>`);
+          const d = t.querySelector('.dots');
+          let c = 1;
+          const tm = setInterval(()=>{ c=(c%5)+1; d.textContent='.'.repeat(c); }, 500);
+          setTimeout(()=>{
+            clearInterval(tm);
+            t.parentElement.remove();
+            cb && cb();
+          }, 6000);
+        }
+
+        typingThen(()=>{
+          appendMessage('bot', buildCard('Step 1 — Get Started', `
+            <ul>
+              <li><strong>Register</strong> in minutes — simple onboarding to get you started.</li>
+              <li><strong>Create your profile</strong> and unlock tasks immediately.</li>
+            </ul>
+          `, false));
+
+          typingThen(()=>{
+            appendMessage('bot', buildCard('Step 2 — Start Earning', `
+              <ul>
+                <li><strong>Earn with tasks</strong> — smartphone jobs, streaming jobs, and referrals.</li>
+                <li><strong>Fast withdrawals</strong> — quick, secure payouts when you’re ready.</li>
+              </ul>
+            `, false));
+
+            typingThen(()=>{
+              appendMessage('bot', buildCard('Step 3 — Grow Bigger', `
+                <ul>
+                  <li><strong>Grow</strong> — level up by completing tasks consistently.</li>
+                  <li><strong>Scale your income</strong> with bonuses and referrals.</li>
+                </ul>
+              `, true));
+            });
+          });
+        });
+
+      }, 6000);
+
+      input.value = '';
+      input.focus();
+    });
+
+    window.addEventListener('DOMContentLoaded', greet);
+
+    function escapeHTML(str){
+      return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+  </script>
+</body>
+</html>
